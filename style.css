@@ -41,6 +41,7 @@ h1 {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: inline-block; /* Fit content */
+  min-width: 300px; /* Ensure minimum width */
 }
 
 .input-group {
@@ -79,7 +80,7 @@ input[type=number] {
 
 
 #time-display {
-  font-size: 4em; /* Larger display */
+  font-size: 3.5em; /* Slightly smaller to fit ms */
   font-weight: bold;
   margin-bottom: 1.5rem;
   color: #64d6ff; /* Light blue color */
@@ -90,6 +91,7 @@ input[type=number] {
   display: flex;
   justify-content: center;
   gap: 1rem; /* Space between buttons */
+  margin-bottom: 1rem; /* Add space below controls */
 }
 
 button {
@@ -104,7 +106,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s, background-color 0.25s;
 }
-button:hover {
+button:hover:not(:disabled) {
   border-color: #646cff;
   background-color: #2a2a2a;
 }
@@ -112,23 +114,82 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-button:active {
+button:active:not(:disabled) {
     background-color: #3a3a3a;
 }
+button:disabled {
+    background-color: #444;
+    color: #888;
+    cursor: not-allowed;
+    border-color: transparent;
+}
+
 
 #reset {
     background-color: #555;
 }
-#reset:hover {
+#reset:hover:not(:disabled) {
     background-color: #666;
     border-color: #aaa;
 }
+
+#lap {
+    background-color: #007acc; /* Blue for lap */
+}
+#lap:hover:not(:disabled) {
+    background-color: #005fa3;
+    border-color: #64d6ff;
+}
+
 
 .message {
     margin-top: 1rem;
     font-size: 1.1em;
     color: #ffcc00; /* Yellow message */
     min-height: 1.5em; /* Reserve space */
+}
+
+.laps-container {
+    margin-top: 1.5rem;
+    text-align: left;
+    max-height: 150px; /* Limit height and add scroll */
+    overflow-y: auto;
+    background-color: #2a2a2a;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.laps-container h2 {
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    color: #ccc;
+}
+
+#laps-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#laps-list li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #444;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1em;
+    display: flex;
+    justify-content: space-between;
+}
+#laps-list li:last-child {
+    border-bottom: none;
+}
+#laps-list .lap-number {
+    color: #aaa;
+    margin-right: 1rem;
+}
+#laps-list .lap-time {
+    color: #eee;
 }
 
 
@@ -138,10 +199,11 @@ button:active {
     font-size: 2em;
   }
   #time-display {
-    font-size: 3em;
+    font-size: 2.8em; /* Adjust for smaller screens */
   }
   .timer-container {
     padding: 1.5rem;
+    min-width: 280px;
   }
   .input-group {
     flex-direction: column;
@@ -153,10 +215,15 @@ button:active {
       gap: 0.5rem;
   }
   .controls {
-    gap: 0.8rem;
+    gap: 0.5rem; /* Reduce gap */
+    flex-wrap: wrap; /* Allow buttons to wrap */
   }
   button {
-    padding: 0.7em 1.2em;
+    padding: 0.7em 1em; /* Adjust padding */
+    font-size: 0.9em;
+  }
+  .laps-container {
+      max-height: 120px;
   }
 }
 
@@ -172,20 +239,34 @@ button:active {
     background-color: #f0f0f0; /* Lighter button */
     color: #213547;
   }
-  button:hover {
+  button:hover:not(:disabled) {
     background-color: #e0e0e0;
     border-color: #747bff;
   }
-   button:active {
+   button:active:not(:disabled) {
     background-color: #d0d0d0;
   }
+  button:disabled {
+    background-color: #e9e9e9;
+    color: #aaa;
+  }
+
   #reset {
     background-color: #ccc;
   }
-  #reset:hover {
+  #reset:hover:not(:disabled) {
     background-color: #bbb;
     border-color: #888;
   }
+  #lap {
+    background-color: #007acc;
+    color: white; /* Keep text white on blue */
+  }
+  #lap:hover:not(:disabled) {
+    background-color: #005fa3;
+    border-color: #007acc;
+  }
+
   .timer-container {
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -200,5 +281,20 @@ button:active {
   }
   .message {
       color: #cc8400; /* Darker yellow/orange */
+  }
+  .laps-container {
+      background-color: #eee;
+  }
+  .laps-container h2 {
+      color: #555;
+  }
+  #laps-list li {
+      border-bottom: 1px solid #ddd;
+  }
+  #laps-list .lap-number {
+      color: #666;
+  }
+  #laps-list .lap-time {
+      color: #333;
   }
 }
